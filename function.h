@@ -29,6 +29,8 @@ pointer*/
   BikePtr Top() const;
   void Push(const BikePtr bike);
   void Delete(BikePtr bike);
+  int Search(const BikePtr bike);
+  void show();
 };
 
 int BikeNum; //the number of bikes in the system
