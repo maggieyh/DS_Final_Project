@@ -1,11 +1,30 @@
 #include <iostream>
 #include <string>
+#include <map>
+using namespace std;
+#define INF 0x3f3f3f
 enum StatusType {Free, Rented};
 enum ClassType { Electric, Lady, Road, Hybrid};
-enum StationName {
+enum StationName  {
 Danshui, Hongshulin, Beitou, Shilin, Zhongshan, Xinpu,
 Ximen, Liuzhangli, Muzha, Guting, Gongguan, Jingmei };
-typedef char LicenseType[5];
+std::map<std::string, StationName>mp = {
+  {"Danshui", Danshui},
+  {"Hongshulin", Hongshulin},
+  {"Beitou", Beitou},
+  {"Shilin", Shilin},
+  {"Zhongshan", Zhongshan},
+  {"Xinpu", Xinpu},
+  {"Ximen", Ximen},
+  {"Liuzhangli", Liuzhangli},
+  {"Muzha", Muzha},
+  {"Guting", Guting},
+  {"Gongguan", Gongguan},
+  {"Jingmei", Jingmei}
+};
+int lengthMap[12][12] = {INF};
+int dp[12][12] = {INF};
+typedef string LicenseType;
 
 struct BikeType {
   LicenseType License;
@@ -25,7 +44,7 @@ struct HeapType{
   /*use array to implement heap, and each node in the heap is a
 pointer*/
   int Number; //number of nodes
-//last elemen is Elem[Number-1];
+//last elemen is Elem[Number];
   BikePtr Top() const;
   void Push(const BikePtr bike);
   void Delete(BikePtr bike);
@@ -34,7 +53,21 @@ pointer*/
 };
 
 int BikeNum; //the number of bikes in the system
-HeapType bikesBinaryTree;
+struct _node {
+  BikePtr bike;
+  struct _node *left, *right;
+  _node():bike(NULL), left(NULL), right(NULL) {}
+};
+
+class _BST {
+public:
+  _node *root;
+  _BST(): root(NULL) {};
+  void ins(BikePtr bike);
+  void del(BikePtr bike);
+  BikePtr search(LicenseType licence);
+  void show(_node *n);
+};
 
 
 //station cpp
