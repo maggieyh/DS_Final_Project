@@ -1,4 +1,4 @@
-// #include "function.h"
+
 #include <iostream>
 #include <string>
 #include <fstream>
@@ -6,6 +6,11 @@ using namespace std;
 extern ofstream fileOut;
 
 //HeapType
+HeapType::HeapType()
+{
+  Number = 0;
+  memset(Elem, 0, sizeof(BikePtr) * 256);
+}
 BikePtr HeapType::Top() const
 {
   if(Number != 0)  return Elem[1];
@@ -78,6 +83,7 @@ void HeapType::Delete(BikePtr bike)
 
 void HeapType::show()
 {
+
   for(int i = 1; i <= Number; i++)
     std::cout << Elem[i]->Mileage << " ";
   std::cout << std::endl;
