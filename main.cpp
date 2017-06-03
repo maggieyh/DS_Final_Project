@@ -6,6 +6,7 @@
 #include <cstdio>
 #include <map>
 #include <sstream>
+#include <iomanip>
 #include "function.h"
 #include "heap.cpp"
 #include "station.cpp"
@@ -37,27 +38,82 @@ int main(int argc, char * argv[]) {
   shortestPath();
   for(int i = 0; i < 12; i++) {
       allStations[i] = StationType();
-      allStations[i].name = i;
   }
-  BikePtr a = NewBike("NTHU0", 10, Lady, allStations[mp["Jingmei"]], "Jingmei");
-  cout << a->Cursor << "," << a->Station << endl;
-  allStations[mp["Jingmei"]].HLady.show();
-  cout << allStations[mp["Jingmei"]].HLady.Number;
 
-  // cout << endl;
-/*
-  string cmd;
+
+  string cmd, stationName, classOfBike;
+  int mile;
+  StationName nm;
+  LicenseType License;
+  ClassType Class;
   while(testCaseIn >> cmd) {
-    if(cmd == "NewBike")
-    {
+    if(cmd == "NewBike") {
+      testCaseIn >> classOfBike >> License >> mile >> stationName;
+      fileOut << "New bike is received by Station " << stationName << ".\n";
+      NewBike(License, mile, mpclass[classOfBike], allStations[mp[stationName]], stationName);
+    }
+
+    if(cmd == "JunkIt") {
+      testCaseIn >> License;
+      fileOut << "Bike " << License;
+      int r = JunkBikePtr(License);
+      if(r == -1)
+          fileOut << " does not belong to our company.\n";
+      else if (r == -2)
+          fileOut << " is now being rented.\n";
+      else
+          fileOut << " is deleted from " << namesOfStations[r] << ".\n";
+    }
 
 
-
+    if(cmd == "Rent") {
+      testCaseIn >> stationName >> classOfBike;
+      if(RentBikePtr(stationName, mpclass[classOfBike]))
+        fileOut << "A bike is rented from " << stationName << ".\n";
+      else
+        fileOut << "No free bike is available.\n";
+    }
+    if(cmd == "Trans") {
+      testCaseIn >> stationName >> License;
+      int r = TransBikePtr(stationName, License);
+      if(r == 0)
+        fileOut << "Bike " << License << " does not belong to our company.\n";
+      else if(r == 1)
+        fileOut << "Bike " << License << " is now being rented.\n";
+      else
+        fileOut << "Bike " << License << " is transferred to " << stationName << ".\n";
 
     }
 
-    fileOut << "..." << endl;
-  }*/
+    if(cmd == "Inquire") {
+      testCaseIn >> License;
+      BikePtr p = SearchBike(License);
+      if(p == NULL)  fileOut << "Bike " << License << " does not belong to our company.\n";
+      else {
+        fileOut << "        License        Mileage          Class        Station\n";
+        fileOut << "============================================================\n";
+        fileOut << setw(15) << License << setw(15) << p->Mileage << setw(15) << bclassnames[p->Class] << setw(15) << namesOfStations[p->Station] << endl << endl;
+      }
+
+    }
+
+    if(cmd == "StationReport") {
+      testCaseIn >> stationName;
+      fileOut << setw(30) << stationName << endl;
+      fileOut << "                    Free Bikes\n";
+      fileOut << "        License        Mileage          Class        Station\n";
+      fileOut << "============================================================\n";
+
+    }
+
+    if(cmd == "BReport") {
+      fileOut << "Binary Search Tree\n";
+      bikeBST.preord();
+      fileOut << endl;
+      bikeBST.inord();
+      fileOut << endl;
+    }
+  }
 
 
 }

@@ -1,7 +1,9 @@
-
+// #include "function.h"
 #include <iostream>
 #include <string>
 #include <fstream>
+#include <stack>
+#include <queue>
 using namespace std;
 extern ofstream fileOut;
 BikePtr _BST::search(LicenseType License)
@@ -84,11 +86,7 @@ void _BST::del(BikePtr bike)
         return; // find no
     }
   }
-  if(cur == root) {
-    root = NULL;
-    delete cur;
-    return;
-  }
+
   if(cur -> left == NULL && cur -> right == NULL) {
     if(cur == root) {
       root = NULL;
@@ -99,6 +97,11 @@ void _BST::del(BikePtr bike)
     delete cur;
     return;
   } else if( cur -> left == NULL && cur -> right != NULL) {
+    if(cur == root) {
+      root = cur -> right;
+      delete cur;
+      return;
+    }
     if(l) p -> left = cur -> right;
     else  p -> right = cur -> right;
     delete cur;
@@ -117,7 +120,11 @@ void _BST::del(BikePtr bike)
     } else {
       temp -> right = cur -> right;
     }
-
+    if(cur == root) {
+      root = temp;
+      delete cur;
+      return;
+    }
     if(l) p -> left = temp;
     else  p -> right = temp;
     delete cur;
@@ -131,4 +138,48 @@ void _BST::show(_node *n)
   this->show(n->left);
   std::cout << n->bike->License << " ";
   this->show(n->right);
+}
+void _BST::inord() {
+  if(root == NULL) return;
+  stack<_node*> st;
+  st.push(root);
+  _node *cur = root;
+  while(!st.empty()) {
+    while(cur != NULL) {
+      if(cur -> left != NULL) {
+        st.push(cur->left);
+        cur = cur -> left;
+
+      } else
+        break;
+    }
+    cur = st.top();
+    st.pop();
+    fileOut << cur -> bike -> License;
+    if(cur -> right != NULL) {
+      st.push(cur->right);
+      cur = cur -> right;
+    }
+    if(!st.empty())
+      fileOut << "->";
+
+  }
+}
+void _BST::preord() {
+  if(root == NULL) return;
+  queue<_node*> q;
+  q.push(root);
+  while(!q.empty()) {
+    fileOut << q.front()->bike->License;
+    if(q.front()->left != NULL)
+      q.push(q.front()->left);
+    if(q.front()->right != NULL)
+      q.push(q.front()->right);
+    q.pop();
+    if(!q.empty()) {
+      fileOut << "->";
+    }
+
+
+  }
 }

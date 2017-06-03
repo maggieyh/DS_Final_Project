@@ -19,6 +19,7 @@ BikePtr HeapType::Top() const
 
 void HeapType::Push(const BikePtr bike)
 {
+  if (bike == NULL) return;
   Number++;
   int currentNode = Number;
   while(currentNode != 1 && Elem[currentNode / 2]->Mileage < bike->Mileage) {
@@ -79,6 +80,12 @@ void HeapType::Delete(BikePtr bike)
     }
 
   }
+}
+
+void HeapType::Pop()
+{
+  if(Number > 0)
+    this -> Delete(Elem[1]);
 }
 
 void HeapType::show()

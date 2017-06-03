@@ -8,10 +8,10 @@
 #include <cstdio>
 #include <map>
 #include <sstream>
-#include "function.h"
-#include "heap.cpp"
-#include "station.cpp"
-#include "bst.cpp"
+#include "../function.h"
+#include "../heap.cpp"
+#include "../station.cpp"
+#include "../bst.cpp"
 using namespace std;
 ifstream testCaseIn, mapIn;
 ofstream fileOut;
@@ -33,6 +33,10 @@ int main(int argc, char * argv[]) {
   aTree.ins(garage[3]);
   aTree.ins(garage[4]);
   aTree.ins(garage[5]);
+  aTree.preord();
+  cout << endl;
+  aTree.inord();
+  
   // aTree.del(garage[3]);
   // aTree.show(aTree.root);
   // cout << endl;

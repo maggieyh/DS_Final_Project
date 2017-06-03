@@ -22,6 +22,15 @@ std::map<std::string, StationName>mp = {
   {"Gongguan", Gongguan},
   {"Jingmei", Jingmei}
 };
+std::map<std::string, ClassType>mpclass = {
+  {"Electric", Electric},
+  {"Lady", Lady},
+  {"Road", Road},
+  {"Hybrid", Hybrid}
+};
+string bclassnames[4] = {"Electric", "Lady", "Road", "Hybrid"};
+string namesOfStations[12] = { "Danshui", "Hongshulin", "Beitou", "Shilin", "Zhongshan", "Xinpu",
+"Ximen", "Liuzhangli", "Muzha", "Guting", "Gongguan", "Jingmei"};
 int lengthMap[12][12] = {0x3f3f3f};
 int dp[12][12] = {0x3f3f3f};
 typedef string LicenseType;
@@ -30,7 +39,7 @@ struct BikeType {
   LicenseType License;
   StatusType Status;
   int Mileage; /* most recently rented mileage */
-  int Cursor; /* cursor to the entry in heap where there is a pointer to this node */
+  // int Cursor; /* cursor to the entry in heap where there is a pointer to this node */
   StationName Station;
   ClassType Class;
 };
@@ -44,6 +53,7 @@ struct HeapType{
   BikePtr Top() const;
   void Push(const BikePtr bike);
   void Delete(BikePtr bike);
+  void Pop();
   int Search(const BikePtr bike);
   void show();
   HeapType();
@@ -67,6 +77,8 @@ public:
   void del(BikePtr bike);
   BikePtr search(LicenseType licence);
   void show(_node *n);
+  void inord();
+  void preord();
 } bikeBST;
 
 void shortestPath()
@@ -97,7 +109,6 @@ public:
   HeapType HLady;
   HeapType HRoad;
   HeapType HHybrid;
-  int name;
 
   StationType();
 
@@ -113,13 +124,10 @@ BikePtr NewBike(LicenseType License, int Mile, ClassType Class, StationType &Sta
 
 BikePtr SearchBike (LicenseType License);
 
+int JunkBikePtr(LicenseType License);
 
-// void JunkBikePtr(LicenseType licence);
-// void TransBikePtr(LicenseType licence, string stationName);
-// void RentBikePtr(LicenseType licence); //rent bike
-// void Returns(string stationName, LicenseType licence, int mile);
-// void Inquire(LicenseType licence); //print info about the licence
-// void StationReport
-// UbikeReport
-// NetSearch
-// BReport
+int TransBikePtr (string stationName, LicenseType License);
+
+int RentBikePtr(string stationName, ClassType Class); //rent bike
+
+int Returns(string stationName, LicenseType License, int mile);
