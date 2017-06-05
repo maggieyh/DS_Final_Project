@@ -55,7 +55,7 @@ struct HeapType{
   void Delete(BikePtr bike);
   void Pop();
   int Search(const BikePtr bike);
-  void show();
+  void show(int, int);
   HeapType();
 
 };
@@ -131,3 +131,7 @@ int TransBikePtr (string stationName, LicenseType License);
 int RentBikePtr(string stationName, ClassType Class); //rent bike
 
 int Returns(string stationName, LicenseType License, int mile);
+
+void stationReport(string stationName);
+
+void UbikeReport();

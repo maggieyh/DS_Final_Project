@@ -27,19 +27,15 @@ BikePtr NewBike(LicenseType License, int Mile, ClassType Class, StationType &Sta
   switch(Class){
   case Electric:
     Station.HElectric.Push(newBike);
-    // newBike -> Cursor = Station.HElectric.Number;
     break;
   case Lady:
     Station.HLady.Push(newBike);
-    // newBike -> Cursor = Station.HLady.Number;
     break;
   case Road:
     Station.HRoad.Push(newBike);
-    // newBike -> Cursor = Station.HRoad.Number;
     break;
   case Hybrid:
     Station.HHybrid.Push(newBike);
-    // newBike -> Cursor = Station.HHybrid.Number;
     break;
   }
   return newBike;
@@ -188,5 +184,84 @@ int Returns(string stationName, LicenseType License, int mile)
       break;
   }
   p->Mileage = mile;
-  return 1;
+  return charge;
+}
+void UbikeReport()
+{
+  fileOut << "                 Taipei U-bike\n                    Free Bikes\n     License     Mileage       Class     Station       Total\n============================================================\n";
+  int e = 0, l = 0, r = 0, h = 0;
+  int net = 0;
+  for(int i = 0; i < 12; i++) {
+    allStations[i].HElectric.show(12, 1);
+    allStations[i].HLady.show(12, 1);
+    allStations[i].HRoad.show(12, 1);
+    allStations[i].HHybrid.show(12, 1);
+    e += allStations[i].HElectric.Number;
+    l += allStations[i].HLady.Number;
+    r += allStations[i].HRoad.Number;
+    h += allStations[i].HHybrid.Number;
+    net += allStations[i].Net;
+  }
+  fileOut << "============================================================\n" << setw(60) << (e + l + r + h) << endl << endl;
+  fileOut << "                  Rented Bikes\n     License     Mileage       Class     Station       Total\n============================================================\n";
+  int rt = 0;
+  for(int i = 0; i < 12; i++) {
+    allStations[i].HRent.show(12, 1);
+    for(int j = 1; j <= allStations[i].HRent.Number; j++) {
+      switch(allStations[i].HRent.Elem[j]->Class) {
+        case Electric: e++; break;
+        case Lady: l++; break;
+        case Road: r++; break;
+        case Hybrid: h++; break;
+      }
+    }
+    rt += allStations[i].HRent.Number;
+  }
+  fileOut << "============================================================\n";
+  fileOut << setw(60) << rt << endl << endl;
+  fileOut << "         Net    Electric        Lady        Road      Hybrid\n============================================================\n";
+  fileOut << setw(12) << net << setw(12) << e << setw(12) << l << setw(12) << r << setw(12) << h << endl;
+  fileOut << "============================================================\n\n";
+
+}
+void stationReport(string stationName)
+{
+  fileOut << setw(30) << stationName << endl;
+  fileOut << "                    Free Bikes\n";
+  fileOut << "        License        Mileage          Class       SubTotal\n";
+  fileOut << "============================================================\n";
+  allStations[mp[stationName]].HElectric.show(15, 0);
+  allStations[mp[stationName]].HLady.show(15, 0);
+  allStations[mp[stationName]].HRoad.show(15, 0);
+  allStations[mp[stationName]].HHybrid.show(15, 0);
+  fileOut << "============================================================\n";
+  int r = allStations[mp[stationName]].HElectric.Number +
+          allStations[mp[stationName]].HLady.Number +
+          allStations[mp[stationName]].HRoad.Number +
+          allStations[mp[stationName]].HHybrid.Number;
+  fileOut << setw(60) << r << endl << endl;
+  fileOut << "                  Rented Bikes\n";
+  fileOut << "        License        Mileage          Class       SubTotal\n";
+  fileOut << "============================================================\n";
+  allStations[mp[stationName]].HRent.show(15, 0);
+  fileOut << "============================================================\n";
+  fileOut << setw(60) << allStations[mp[stationName]].HRent.Number << endl << endl;
+  fileOut << "         Net    Electric        Lady        Road      Hybrid\n";
+  fileOut <<"============================================================\n";
+  int e = allStations[mp[stationName]].HElectric.Number;
+  int l = allStations[mp[stationName]].HLady.Number;
+  int rd = allStations[mp[stationName]].HRoad.Number;
+  int hy = allStations[mp[stationName]].HHybrid.Number;
+  for(int i = 1; i <= allStations[mp[stationName]].HRent.Number; i++) {
+    switch(allStations[mp[stationName]].HRent.Elem[i]->Class) {
+      case Electric: e++; break;
+      case Lady: l++; break;
+      case Road: rd++; break;
+      case Hybrid: hy++; break;
+    }
+  }
+  fileOut << setw(12) << allStations[mp[stationName]].Net << setw(12) << e << setw(12) << l << setw(12) << rd << setw(12) << hy << endl;
+  fileOut << "============================================================\n\n";
+
+
 }

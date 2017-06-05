@@ -88,10 +88,15 @@ void HeapType::Pop()
     this -> Delete(Elem[1]);
 }
 
-void HeapType::show()
+void HeapType::show(int x, int j)
 {
 
-  for(int i = 1; i <= Number; i++)
-    std::cout << Elem[i]->Mileage << " ";
-  std::cout << std::endl;
+  for(int i = 1; i <= Number; i++) {
+    fileOut << setw(x) << Elem[i]->License << setw(x) << Elem[i]->Mileage << setw(x) << bclassnames[Elem[i]->Class];
+    if(j == 1) {
+      fileOut << setw(x) << namesOfStations[Elem[i]->Station] << endl;
+    } else
+      fileOut << endl;
+  }
+
 }

@@ -99,13 +99,8 @@ int main(int argc, char * argv[]) {
 
     if(cmd == "StationReport") {
       testCaseIn >> stationName;
-      fileOut << setw(30) << stationName << endl;
-      fileOut << "                    Free Bikes\n";
-      fileOut << "        License        Mileage          Class        Station\n";
-      fileOut << "============================================================\n";
-
+      stationReport(stationName);
     }
-
     if(cmd == "BReport") {
       fileOut << "Binary Search Tree\n";
       bikeBST.preord();
@@ -113,6 +108,27 @@ int main(int argc, char * argv[]) {
       bikeBST.inord();
       fileOut << endl;
     }
+
+    if(cmd == "Returns") {
+      testCaseIn >> stationName >> License >> mile;
+      fileOut << "Rental charge for this bike is " << Returns(stationName, License, mile) << ".\n";
+
+    }
+
+    if(cmd == "UbikeReport") {
+      UbikeReport();
+    }
+
+    if(cmd == "NetSearch") {
+      testCaseIn >> stationName;
+      fileOut << stationName <<  "\n===============\n";
+      fileOut << "Electric " << allStations[mp[stationName]].NetElectric << endl;
+      fileOut << "Lady " << allStations[mp[stationName]].NetLady << endl;
+      fileOut << "Road " << allStations[mp[stationName]].NetRoad << endl;
+      fileOut << "Hybrid " << allStations[mp[stationName]].NetHybrid << endl;
+      fileOut << "===============\nTotal " << allStations[mp[stationName]].Net << endl << endl;
+    }
+
   }
 
 

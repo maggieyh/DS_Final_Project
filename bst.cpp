@@ -101,33 +101,55 @@ void _BST::del(BikePtr bike)
       root = cur -> right;
       delete cur;
       return;
+    } else {
+      if(l) p -> left = cur -> right;
+      else  p -> right = cur -> right;
+      delete cur;
     }
-    if(l) p -> left = cur -> right;
-    else  p -> right = cur -> right;
-    delete cur;
+
   } else {
     // cur -> left != NULL
     // Replace with the left child which has the largest value case
-    _node *temp = cur -> left, *prev = NULL;
-    while(1){
-      if(temp -> right != NULL) { prev = temp; temp = temp -> right; }
-      else break;
-    }
-    if(prev != NULL) {
-      prev -> right = NULL;
-      temp -> right = cur -> right;
-      temp -> left = cur -> left;
+    if (cur == root) {
+      _node *temp = cur -> left, *prev = NULL;
+      while(1) {
+        if (temp -> right != NULL){ prev = temp; temp = temp -> right;}
+        else break;
+      }
+      if(prev == NULL) {
+        root = cur -> left;
+        root -> right = cur -> right;
+        delete cur;
+        return;
+      } else {
+        prev -> right = NULL;
+        temp -> left = cur -> left;
+        temp -> right = cur -> right;
+        root = temp;
+        delete cur;
+        return;
+      }
+
     } else {
-      temp -> right = cur -> right;
-    }
-    if(cur == root) {
-      root = temp;
+      _node *temp = cur -> left, *prev = NULL;
+      while(1){
+        if(temp -> right != NULL) { prev = temp; temp = temp -> right; }
+        else break;
+      }
+      if(prev != NULL) {
+        prev -> right = NULL;
+        temp -> right = cur -> right;
+        temp -> left = cur -> left;
+      } else {
+        temp -> right = cur -> right;
+      }
+      if(l) p -> left = temp;
+      else  p -> right = temp;
       delete cur;
-      return;
+
     }
-    if(l) p -> left = temp;
-    else  p -> right = temp;
-    delete cur;
+
+
   }
 
 }
@@ -135,8 +157,9 @@ void _BST::show(_node *n)
 {
   if(n == NULL) return;
   _node *cur = n;
-  this->show(n->left);
+
   std::cout << n->bike->License << " ";
+  this->show(n->left);
   this->show(n->right);
 }
 void _BST::inord() {
@@ -167,15 +190,17 @@ void _BST::inord() {
 }
 void _BST::preord() {
   if(root == NULL) return;
-  queue<_node*> q;
+  stack<_node*> q;
   q.push(root);
   while(!q.empty()) {
-    fileOut << q.front()->bike->License;
-    if(q.front()->left != NULL)
-      q.push(q.front()->left);
-    if(q.front()->right != NULL)
-      q.push(q.front()->right);
+    fileOut << q.top()->bike->License;
+    _node *temp = q.top();
     q.pop();
+    if(temp->right != NULL)
+      q.push(temp->right);
+    if(temp->left != NULL)
+      q.push(temp->left);
+
     if(!q.empty()) {
       fileOut << "->";
     }
