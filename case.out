@@ -98,8 +98,8 @@ Rental charge for this bike is 210.
                     Free Bikes
         License        Mileage          Class       SubTotal
 ============================================================
-          AC000             33       Electric
           CCCC1             40       Electric
+          AC000             33       Electric
 ============================================================
                                                            2
 
@@ -165,8 +165,8 @@ AAAA0->AAAA1->AAAA3->AC000->BBBB0->CCCC0->CCCC1->NTHU0->NTHU2->NTHU3->NTHU4->NTH
        BBBB0           5        Road     Danshui
        AAAA0          13      Hybrid     Danshui
        NTHU0          59        Lady       Xinpu
-       AC000          33    Electric       Ximen
        CCCC1          40    Electric       Ximen
+       AC000          33    Electric       Ximen
        AAAA3          37      Hybrid  Liuzhangli
        AAAA1          37      Hybrid  Liuzhangli
        NTHU4          40        Lady     Jingmei
@@ -187,4 +187,3 @@ AAAA0->AAAA1->AAAA3->AC000->BBBB0->CCCC0->CCCC1->NTHU0->NTHU2->NTHU3->NTHU4->NTH
 ============================================================
          985           4           6           1           3
 ============================================================
-

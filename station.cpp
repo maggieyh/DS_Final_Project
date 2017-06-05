@@ -164,6 +164,7 @@ int Returns(string stationName, LicenseType License, int mile)
 
   allStations[s].HRent.Delete(p);
   p->Status = Free;
+  p->Mileage = mile;
 
   switch(p->Class) {
     case Electric:
@@ -183,7 +184,7 @@ int Returns(string stationName, LicenseType License, int mile)
       allStations[s].NetRoad += charge;
       break;
   }
-  p->Mileage = mile;
+
   return charge;
 }
 void UbikeReport()
